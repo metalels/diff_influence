@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage ##
 
-``
+```
 ==============================================================================
 []: optional
 
@@ -42,7 +42,7 @@ Usage: diff-influence [Options]
 
  -o --output path                  to output file (default: STDOUT)
 ==============================================================================
-``
+```
 
 ## Authors ##
 
