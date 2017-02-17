@@ -43,7 +43,7 @@ Usage: diff-influence [Options]
 
  Feature Options:
 
- -p --commit commit_id,commit_id   git commit id(s) uses diff (default: none)
+ -c --commit commit_id,commit_id   git commit id(s) uses diff (default: none)
  -o --output path                  to output file (default: STDOUT)
 ==============================================================================
 ```
