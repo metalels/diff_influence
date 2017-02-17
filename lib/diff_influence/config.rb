@@ -79,7 +79,7 @@ Usage: diff_influence [Options]
         when /\A--output\z/, /\A-o\z/
           @@output = argv.shift
         when /\A--grep\z/, /\A-g\z/
-          @@debug = true
+          @@os_grep = true
         when /\A--debug\z/, /\A-d\z/
           @@debug = true
         when /\A--help\z/, /\A-h\z/
