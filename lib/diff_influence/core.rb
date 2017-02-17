@@ -1,14 +1,6 @@
 module DiffInfluence
   module Core
     EMeth=Struct.new(:name, :type, :raw, :index)
-    EMeth.class_eval do
-      def initialize(attr={})
-        self.name = attr[:name]
-        self.type = attr[:type]
-        self.raw = attr[:raw]
-        self.index = attr[:index]
-      end
-    end
 
     def self.debug_log(msg)
       puts "[DEBUG] #{msg}" if DiffInfluence::Config.debug
@@ -51,12 +43,7 @@ module DiffInfluence
                 "effect"
               end
 
-          methods.push EMeth.new(
-            name: last_method,
-            type: t,
-            raw: line,
-            index: cnt
-          )
+          methods.push EMeth.new(last_method,t,line,cnt)
         else
           cnt += 1
         end
