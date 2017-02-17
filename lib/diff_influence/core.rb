@@ -88,7 +88,12 @@ module DiffInfluence
     def self.influence_search(file_path)
       searched_methods = []
       self.search_methods(file_path).each do |method|
-        if method.name.nil? || method.name.empty? || searched_methods.include?(method.name)
+        if(
+          method.name.nil? ||
+          method.name.empty? ||
+          DiffInfluence::Config.ignores.include?(method.name) ||
+          searched_methods.include?(method.name)
+        )
           next
         else
           searched_methods.push method.name

@@ -17,6 +17,7 @@ Usage: diff_influence [Options]
 
  Feature Options:
 
+ -i --ignore method,method,...     ignore methods (default: new, index)
  -o --output path                  to output file (default: STDOUT)
 ==============================================================================
     EOS
@@ -67,6 +68,14 @@ Usage: diff_influence [Options]
       @@debug ||= false
     end
 
+    def self.ignores
+      @@ignores ||= ["new", "index"]
+    end
+
+    def self.ignores=(value)
+      @@ignores = value.split(",").map{|v| v.chomp.strip}
+    end
+
     def self.parse_options(argv)
       while arg = argv.shift
         case arg
@@ -76,6 +85,8 @@ Usage: diff_influence [Options]
           self.search_paths = argv.shift
         when /\A--ext\z/, /\A-e\z/
           self.search_extensions = argv.shift
+        when /\A--ignore\z/, /\A-i\z/
+          self.ignores = argv.shift
         when /\A--output\z/, /\A-o\z/
           @@output = argv.shift
         when /\A--grep\z/, /\A-g\z/
