@@ -19,7 +19,7 @@ module DiffInfluence
     end
 
     def self.file_paths
-      @@files ||= self.git_status.lines.map{|line| line.split.last}
+      @@files ||= self.git_status.lines.to_a.map{|line| line.split.last}
     end
 
     def self.git_diff(file_path)
@@ -30,7 +30,7 @@ module DiffInfluence
       methods = []
       last_method = nil
       cnt = 0
-      lines = self.git_diff(file_path).lines
+      lines = self.git_diff(file_path).lines.to_a
       lines.each_with_index do |line, idx|
         if line =~ /(\s|\t|;)def/ 
           last_method = lines[idx].split("def ").last.chomp.gsub("self\.","")
@@ -53,10 +53,10 @@ module DiffInfluence
                 "effect"
               end
           methods.push EMeth.new(
-            name: last_method,
-            type: t,
-            raw: line,
-            index: cnt
+            :name => last_method,
+            :type => t,
+            :raw => line,
+            :index => cnt
           )
         else
           cnt += 1

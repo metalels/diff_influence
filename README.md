@@ -1,5 +1,8 @@
 # Diff Influence
 
+[![Build Status](https://travis-ci.org/metalels/diff_influence.svg?branch=master)](https://travis-ci.org/metalels/diff_influence)  
+[![Gem Version](https://badge.fury.io/rb/diff_influence.svg)](https://badge.fury.io/rb/diff_influence)  
+
 Search influence of git diff.
 
 ## Requirement ##
