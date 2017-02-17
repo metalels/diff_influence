@@ -7,7 +7,8 @@ Search influence of git diff.
 
 ## Requirement ##
 
-* git ( use git diff command )
+* Git ( support only git diff command. )
+* Ruby ( support only Ruby 1.8.7 or later. )
 
 ## Installation ##
 
@@ -35,7 +36,6 @@ Usage: diff-influence [Options]
 
  Options:
 
- -p --commit commit_id,commit_id   git commit id(s) uses diff (default: none)
  -p --path path,path,...           path(s) to search file (default: app,lib)
  -e --ext  extension,extension,... extension(s) to search file (default: rb)
  -g --grep                         use grep command with OS
@@ -43,6 +43,7 @@ Usage: diff-influence [Options]
 
  Feature Options:
 
+ -p --commit commit_id,commit_id   git commit id(s) uses diff (default: none)
  -o --output path                  to output file (default: STDOUT)
 ==============================================================================
 ```
