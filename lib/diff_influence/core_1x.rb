@@ -32,7 +32,8 @@ module DiffInfluence
       cnt = 0
       lines = self.git_diff(file_path).lines.to_a
       lines.each_with_index do |line, idx|
-        if line =~ /(\s|\t|;)def/ 
+        method_line = line =~ /(\s|\t|;)def\s/
+        if method_line
           last_method = lines[idx].split("def ").last.chomp.gsub("self\.","")
           self.debug_log "Method line => #{last_method}"
         end
@@ -43,15 +44,13 @@ module DiffInfluence
         when /\A\+/, /\A\-/
           cnt += 1 if line =~ /\A\+/
           self.debug_log "idx:#{idx}, cnt:#{cnt}, #{line}"
-
-          t = case line
-              when /\A-(\s|\t)*def/
-                "remove"
-              when /\A\+(\s|\t)*def/
-                "add"
+          
+          t = if method_line
+                line =~ /\A\-/ ? "remove" : "add"
               else
                 "effect"
               end
+
           methods.push EMeth.new(
             :name => last_method,
             :type => t,
