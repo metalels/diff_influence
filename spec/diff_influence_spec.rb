@@ -6,6 +6,6 @@ describe DiffInfluence do
   end
 
   it 'does something useful' do
-    expect(false).to eq(true)
+    expect(DiffInfluence::Config.parse_options ["--debug"]).to eq true
   end
 end
