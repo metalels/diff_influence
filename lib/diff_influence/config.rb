@@ -89,6 +89,7 @@ Usage: diff_influence [Options]
           self.exit_with_message 2, true
         end
       end
+      true
     end
   end
 end
