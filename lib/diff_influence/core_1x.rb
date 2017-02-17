@@ -23,7 +23,7 @@ module DiffInfluence
     end
 
     def self.git_diff(file_path)
-      `git --no-pager diff --no-ext-diff -U1000000 #{file_path}`
+      `git --no-pager diff --no-ext-diff -U1000000 #{DiffInfluence::Config.commits.join(" ")} #{file_path}`
     end
 
     def self.search_methods(file_path)
