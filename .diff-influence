@@ -1,0 +1,13 @@
+---
+:commits: []
+:search_directories:
+- app
+- lib
+:search_extensions:
+- rb
+- ruby
+:ignore_methods:
+- new
+- index
+:os_grep: false
+:debug: false

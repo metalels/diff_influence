@@ -1,17 +1,13 @@
 module DiffInfluence
   module Core
     EMeth=Struct.new(:name, :type, :raw, :index)
-    EMeth.class_eval do
-      def initialize(attr={})
-        self.name = attr[:name]
-        self.type = attr[:type]
-        self.raw = attr[:raw]
-        self.index = attr[:index]
-      end
+
+    def self.config
+      DiffInfluence::Config
     end
 
     def self.debug_log(msg)
-      puts "[DEBUG] #{msg}" if DiffInfluence::Config.debug
+      puts "[DEBUG] #{msg}" if self.config.debug
     end
 
     def self.git_status
@@ -23,7 +19,7 @@ module DiffInfluence
     end
 
     def self.git_diff(file_path)
-      `git --no-pager diff --no-ext-diff -U1000000 #{file_path}`
+      `git --no-pager diff --no-ext-diff -U1000000 #{self.config.commits.join(" ")} #{file_path}`
     end
 
     def self.search_methods(file_path)
@@ -51,12 +47,7 @@ module DiffInfluence
                 "effect"
               end
 
-          methods.push EMeth.new(
-            :name => last_method,
-            :type => t,
-            :raw => line,
-            :index => cnt
-          )
+          methods.push EMeth.new(last_method,t,line,cnt)
         else
           cnt += 1
         end
@@ -66,7 +57,7 @@ module DiffInfluence
     end
 
     def self.os_grep(keyword="")
-      DiffInfluence::Config.search_paths.each do |pd|
+      self.config.search_directories.each do |pd|
         puts `grep -r -E '(\\.|@)#{keyword}(\\s|\\()' #{pd}`
       end
     end
@@ -82,24 +73,32 @@ module DiffInfluence
     end
 
     def self.files
-      @@files ||= Dir.glob(DiffInfluence::Config.search_paths.map{|d| "#{d}/**/**.{#{DiffInfluence::Config.search_extensions.join(",")}}"})
+      @@files ||= Dir.glob(self.config.search_directories.map{|d| "#{d}/**/**.{#{self.config.search_extensions.join(",")}}"})
     end
 
     def self.influence_search(file_path)
       searched_methods = []
       self.search_methods(file_path).each do |method|
-        if method.name.nil? || method.name.empty? || searched_methods.include?(method.name)
+        if(
+          method.name.nil? || method.name.empty? ||
+          self.config.ignore_methods.include?(method.name) ||
+          searched_methods.include?(method.name)
+        )
           next
         else
           searched_methods.push method.name
         end
         puts "###  Searching method[#{method.name}] (from #{file_path}:#{method.index})"
-        if DiffInfluence::Config.os_grep
-          self.os_grep method.name
-        else
-          self.native_grep method.name
-        end
+        self.grep method.name
         puts
+      end
+    end
+
+    def self.grep(method_name)
+      if self.config.os_grep
+        self.os_grep method_name
+      else
+        self.native_grep method_name
       end
     end
 
@@ -109,5 +108,6 @@ module DiffInfluence
       end
       exit 0
     end
+
   end
 end

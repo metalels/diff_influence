@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require "diff_influence"
+require 'diff_influence'
 
-DiffInfluence::Config.parse_options ARGV
+DiffInfluence::Config.load_conf
+DiffInfluence::Config.parse_args ARGV
 DiffInfluence::Core.exec

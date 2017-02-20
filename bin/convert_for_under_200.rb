@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-src = File.read "lib/diff_influence/core.rb"
-src = src.gsub(/(\w+):\s/, ':\1 => ')
-src = src.gsub(/\.lines/, '.lines.to_a')
-File.write "lib/diff_influence/core_1x.rb", src
+%w(lib/diff_influence/core.rb lib/diff_influence/config.rb).each do |src_file|
+  src = File.read src_file
+  src = src.gsub(/(\w+):\s/, ':\1 => ')
+  src = src.gsub(/\.lines/, '.lines.to_a')
+  File.write src_file.gsub('.rb', '_1x.rb'), src
+  src = nil
+end
