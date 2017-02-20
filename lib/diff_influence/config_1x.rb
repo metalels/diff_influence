@@ -6,21 +6,19 @@ module DiffInfluence
 ==============================================================================
 []: optional
 
-Usage: diff_influence [Options]
+:Usage => diff_influence [Options]
 
- Options:
-
- -c --commit id1,id2,...          git commit id(s) uses diff (default: none)
- -d --dir  dir1,dir2,...          path(s) to search file (default: app,lib)
- -e --ext  ext1,ext2,...          extension(s) to search file (default: rb)
- -i --ignore method1,method2,...  ignore methods (default: new, index)
+ :Options => 
+ -c --commit id1,id2,...          git commit id(s) uses diff (:default => none)
+ -d --dir  dir1,dir2,...          path(s) to search file (:default => app,lib)
+ -e --ext  ext1,ext2,...          extension(s) to search file (:default => rb)
+ -i --ignore method1,method2,...  ignore methods (:default => new, index)
  -g --grep                        use grep command with OS
  -P --print                       print config values
  -D --debug                       print debugging information to console
 
- Feature Options:
-
- -o --output path                 to output file (default: STDOUT)
+ Feature :Options => 
+ -o --output path                 to output file (:default => STDOUT)
 ==============================================================================
     EOS
 
@@ -132,23 +130,23 @@ Usage: diff_influence [Options]
 
     def self.print
       yaml_obj = {
-        commits: self.commits,
-        search_directories: self.search_directories,
-        search_extensions: self.search_extensions,
-        ignore_methods: self.ignore_methods,
-        os_grep: self.os_grep,
-        debug: self.debug
+        :commits => self.commits,
+        :search_directories => self.search_directories,
+        :search_extensions => self.search_extensions,
+        :ignore_methods => self.ignore_methods,
+        :os_grep => self.os_grep,
+        :debug => self.debug
       }
       yaml_obj[:output] = self.output if self.output
       puts <<-EOS
 ======== Diff Influence Config ========
-  target commits:     #{self.commits.inspect}
-  search directories: #{self.search_directories.inspect}
-  search extensions:  #{self.search_extensions.inspect}
-  ignore methods:     #{self.ignore_methods.inspect}
-  output file:        #{self.output}
-  os grep mode:       #{self.os_grep}
-  debug mode:         #{self.debug}
+  target :commits =>     #{self.commits.inspect}
+  search :directories => #{self.search_directories.inspect}
+  search :extensions =>  #{self.search_extensions.inspect}
+  ignore :methods =>     #{self.ignore_methods.inspect}
+  output :file =>        #{self.output}
+  os grep :mode =>       #{self.os_grep}
+  debug :mode =>         #{self.debug}
 =======================================
 
 >>>>> sample .diff_influence

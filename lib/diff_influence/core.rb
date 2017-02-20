@@ -2,8 +2,12 @@ module DiffInfluence
   module Core
     EMeth=Struct.new(:name, :type, :raw, :index)
 
+    def self.config
+      DiffInfluence::Config
+    end
+
     def self.debug_log(msg)
-      puts "[DEBUG] #{msg}" if DiffInfluence::Config.debug
+      puts "[DEBUG] #{msg}" if self.config.debug
     end
 
     def self.git_status
@@ -15,7 +19,7 @@ module DiffInfluence
     end
 
     def self.git_diff(file_path)
-      `git --no-pager diff --no-ext-diff -U1000000 #{DiffInfluence::Config.commits.join(" ")} #{file_path}`
+      `git --no-pager diff --no-ext-diff -U1000000 #{self.config.commits.join(" ")} #{file_path}`
     end
 
     def self.search_methods(file_path)
@@ -53,7 +57,7 @@ module DiffInfluence
     end
 
     def self.os_grep(keyword="")
-      DiffInfluence::Config.search_paths.each do |pd|
+      self.config.search_directories.each do |pd|
         puts `grep -r -E '(\\.|@)#{keyword}(\\s|\\()' #{pd}`
       end
     end
@@ -69,7 +73,7 @@ module DiffInfluence
     end
 
     def self.files
-      @@files ||= Dir.glob(DiffInfluence::Config.search_paths.map{|d| "#{d}/**/**.{#{DiffInfluence::Config.search_extensions.join(",")}}"})
+      @@files ||= Dir.glob(self.config.search_directories.map{|d| "#{d}/**/**.{#{self.config.search_extensions.join(",")}}"})
     end
 
     def self.influence_search(file_path)
@@ -78,7 +82,7 @@ module DiffInfluence
         if(
           method.name.nil? ||
           method.name.empty? ||
-          DiffInfluence::Config.ignores.include?(method.name) ||
+          self.config.ignore_methods.include?(method.name) ||
           searched_methods.include?(method.name)
         )
           next
@@ -86,7 +90,7 @@ module DiffInfluence
           searched_methods.push method.name
         end
         puts "###  Searching method[#{method.name}] (from #{file_path}:#{method.index})"
-        if DiffInfluence::Config.os_grep
+        if self.config.os_grep
           self.os_grep method.name
         else
           self.native_grep method.name
