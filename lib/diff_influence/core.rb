@@ -66,14 +66,14 @@ module DiffInfluence
 
     def self.os_grep(keyword='')
       self.config.search_directories.each do |pd|
-        puts `grep -r -E '(\\.|@)#{keyword}(\\s|\\()' #{pd}`
+        puts `grep -r -E '(\\.|@)#{Regexp.escape(keyword)}(\\s|\\()' #{pd}`
       end
     end
 
     def self.native_grep(keyword='')
       self.files.each do |file|
         File.readlines(file).each_with_index do |line, idx|
-          if line =~ /(\.|@)#{keyword}(\s|\()/
+          if line =~ /(\.|@)#{Regexp.escape(keyword)}(\s|\()/
             puts "#{file}:#{idx+1} #{line}"
           end
         end
