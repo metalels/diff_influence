@@ -30,7 +30,7 @@ Or install it yourself as:
 
 ```
 ==============================================================================
-[]: optional
+[]: optional(overrides .diff-influence)
 
 Usage: diff-influence [Options]
 
