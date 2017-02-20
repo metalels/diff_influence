@@ -5,6 +5,7 @@
 - lib
 :search_extensions:
 - rb
+- ruby
 :ignore_methods:
 - new
 - index
