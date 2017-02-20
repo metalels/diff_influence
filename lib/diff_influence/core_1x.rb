@@ -80,8 +80,7 @@ module DiffInfluence
       searched_methods = []
       self.search_methods(file_path).each do |method|
         if(
-          method.name.nil? ||
-          method.name.empty? ||
+          method.name.nil? || method.name.empty? ||
           self.config.ignore_methods.include?(method.name) ||
           searched_methods.include?(method.name)
         )
@@ -90,12 +89,16 @@ module DiffInfluence
           searched_methods.push method.name
         end
         puts "###  Searching method[#{method.name}] (from #{file_path}:#{method.index})"
-        if self.config.os_grep
-          self.os_grep method.name
-        else
-          self.native_grep method.name
-        end
+        self.grep method.name
         puts
+      end
+    end
+
+    def self.grep(method_name)
+      if self.config.os_grep
+        self.os_grep method_name
+      else
+        self.native_grep method_name
       end
     end
 
@@ -105,5 +108,6 @@ module DiffInfluence
       end
       exit 0
     end
+
   end
 end

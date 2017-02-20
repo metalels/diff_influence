@@ -6,7 +6,7 @@ describe DiffInfluence do
   end
 
   it 'can load pamanent config' do
-    expect(DiffInfluence::Config.load).to eq nil
+    expect(DiffInfluence::Config.load_conf).to eq nil
     expect(DiffInfluence::Config.search_extensions).to include("ruby")
   end
 

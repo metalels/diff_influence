@@ -41,7 +41,7 @@ module DiffInfluence
     end
 
     def self.search_directories
-      @@search_directories ||= ["app", "lib"]
+      @@search_directories ||= %w(app lib)
     end
 
     def self.search_directories=(value)
@@ -88,11 +88,11 @@ module DiffInfluence
       @@ignore_methods = self.flexible_value value
     end
 
-    def self.load
+    def self.load_conf
       ["\.diff-influence", "#{File.expand_path("~")}/\.diff-influence"].each do |conf_file|
         if File.exist? conf_file
           puts "#{conf_file} reading..." if self.debug
-          self.load_conf conf_file
+          self.load_conf_file conf_file
           break
         end
       end
@@ -168,7 +168,7 @@ module DiffInfluence
       end
     end
 
-    def self.load_conf(file_path)
+    def self.load_conf_file(file_path)
       if settings = YAML.load_file(file_path)
         settings.each do |k, v|
           self.send "#{k}=", v
