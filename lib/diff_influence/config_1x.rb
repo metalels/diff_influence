@@ -49,7 +49,7 @@ module DiffInfluence
     end
 
     def self.search_extensions
-      @@search_extensions ||= ["rb"]
+      @@search_extensions ||= %w(rb)
     end
 
     def self.search_extensions=(value)
@@ -81,7 +81,7 @@ module DiffInfluence
     end
 
     def self.ignore_methods
-      @@ignore_methods ||= ["new", "index"]
+      @@ignore_methods ||= %w(new index)
     end
 
     def self.ignore_methods=(value)
@@ -89,7 +89,7 @@ module DiffInfluence
     end
 
     def self.load_conf
-      ["\.diff-influence", "#{File.expand_path("~")}/\.diff-influence"].each do |conf_file|
+      ['.diff-influence', "#{File.expand_path("~")}/\.diff-influence"].each do |conf_file|
         if File.exist? conf_file
           puts "#{conf_file} reading..." if self.debug
           self.load_conf_file conf_file
@@ -162,7 +162,7 @@ module DiffInfluence
       when Array
         value
       when String
-        value.split(",").map{|v| v.chomp.strip}
+        value.split(',').map{|v| v.chomp.strip}
       else
         nil
       end

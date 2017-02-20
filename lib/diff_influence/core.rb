@@ -15,7 +15,15 @@ module DiffInfluence
     end
 
     def self.file_paths
-      @@files ||= self.git_status.lines.map{|line| line.split.last}
+      @@files ||= self.git_status.lines.map {|line|
+        path = line.split.last
+        case path
+        when *self.config.search_directories.map{|d| /\A#{d}/}
+          path
+        else
+          nil
+        end
+      }.compact
     end
 
     def self.git_diff(file_path)
@@ -30,7 +38,7 @@ module DiffInfluence
       lines.each_with_index do |line, idx|
         method_line = line =~ /(\s|\t|;)def\s/
         if method_line
-          last_method = lines[idx].split('def ').last.chomp.gsub('self.', '')
+          last_method = lines[idx].split('def ').last.chomp.gsub('self.', '').gsub(/\(.*\z/, '')
           self.debug_log "Method line => #{last_method}"
         end
         case line
